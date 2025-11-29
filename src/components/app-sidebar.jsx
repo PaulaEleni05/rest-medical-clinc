@@ -48,7 +48,7 @@ const data = {
     },
     {
       title: "Appointments",
-      url: "#",
+      url: "/appointments",
       icon: IconCalendar,
     },
     {

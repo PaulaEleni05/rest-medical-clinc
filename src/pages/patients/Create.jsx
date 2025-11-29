@@ -91,6 +91,8 @@ export default function Create() {
                 name="phone" 
                 value={form.phone} 
                 onChange={handleChange}
+                minLength={10}
+                maxLength={10}
                 required
             />
             <Input 

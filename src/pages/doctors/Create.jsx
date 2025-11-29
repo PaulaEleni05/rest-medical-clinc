@@ -90,6 +90,8 @@ export default function Create() {
                 name="phone" 
                 value={form.phone} 
                 onChange={handleChange}
+                minLength={10}
+                maxLength={10}
                 required
             />
             <select 
@@ -97,6 +99,7 @@ export default function Create() {
                 name="specialisation" 
                 value={form.specialisation} 
                 onChange={handleChange}
+                required
             >
                 <option value="">Select Specialisation</option>
                 <option value="Podiatrist">Podiatrist</option>

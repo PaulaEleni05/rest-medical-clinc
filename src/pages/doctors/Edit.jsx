@@ -71,7 +71,10 @@ export default function Edit() {
     try {
       let response = await axios.request(options);
       console.log(response.data);
-      navigate("/doctors");
+      navigate("/doctors", { state: { 
+        type: 'success',
+        message: `Doctor "${response.data.first_name} ${response.data.last_name}" updated successfully` 
+      }});
     } catch (err) {
       console.log(err);
     }
