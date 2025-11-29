@@ -12,16 +12,17 @@ export default function Edit() {
     first_name: "",
     last_name: "",
     phone: "",
-    specialisation: "",
+    address: "",
+    date_of_birth: "",
   });
 
   const { token } = useAuth();
 
   useEffect(() => {
-    const fetchDoctor = async () => {
+    const fetchPatient = async () => {
       const options = {
         method: "GET",
-        url: `/doctors/${id}`,
+        url: `/patients/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -30,20 +31,21 @@ export default function Edit() {
       try {
         let response = await axios.request(options);
         console.log(response.data);
-        let doctor = response.data;
+        let patient = response.data;
         setForm({
-            email: doctor.email,
-            first_name: doctor.first_name,
-            last_name: doctor.last_name,
-            phone: doctor.phone,
-            specialisation: doctor.specialisation,
+            email: patient.email,
+            first_name: patient.first_name,
+            last_name: patient.last_name,
+            phone: patient.phone,
+            address: patient.address,
+            date_of_birth: patient.date_of_birth,
         });
       } catch (err) {
         console.log(err);
       }
     };
 
-    fetchDoctor();
+    fetchPatient();
   }, []);
 
   const navigate = useNavigate();
@@ -56,12 +58,12 @@ export default function Edit() {
     });
   };
 
-  const updateDoctor = async () => {
+  const updatePatient = async () => {
     
 
     const options = {
       method: "PATCH",
-      url: `/doctors/${id}`,
+      url: `/patients/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -71,7 +73,7 @@ export default function Edit() {
     try {
       let response = await axios.request(options);
       console.log(response.data);
-      navigate("/doctors");
+      navigate("/patients");
     } catch (err) {
       console.log(err);
     }
@@ -80,12 +82,12 @@ export default function Edit() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(form);
-    updateDoctor();
+    updatePatient();
   };
 
   return (
     <>
-      <h1>Update Doctor</h1>
+      <h1>Update Patient</h1>
       <form onSubmit={handleSubmit}>
         <Input
           type="email"
@@ -122,20 +124,24 @@ export default function Edit() {
           onChange={handleChange}
           required
         />
-        <select
-          className="mt-2 flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          name="specialisation"
-          value={form.specialisation}
+        <Input
+          className="mt-2"
+          type="text"
+          placeholder="Address"
+          name="address"
+          value={form.address}
           onChange={handleChange}
           required
-        >
-          <option value="">Select Specialisation</option>
-          <option value="Podiatrist">Podiatrist</option>
-          <option value="Dermatologist">Dermatologist</option>
-          <option value="Pediatrician">Pediatrician</option>
-          <option value="Psychiatrist">Psychiatrist</option>
-          <option value="General Practitioner">General Practitioner</option>
-        </select>
+        />
+        <Input
+          className="mt-2"
+          type="date"
+          placeholder="Date of Birth"
+          name="date_of_birth"
+          value={form.date_of_birth}
+          onChange={handleChange}
+          required
+        />
         <Button className="mt-4 cursor-pointer" variant="outline" type="submit">
           Submit
         </Button>

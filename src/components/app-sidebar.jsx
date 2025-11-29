@@ -43,7 +43,7 @@ const data = {
     },
     {
       title: "Patients",
-      url: "#",
+      url: "/patients",
       icon: IconUsers,
     },
     {
