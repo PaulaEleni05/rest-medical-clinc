@@ -53,7 +53,7 @@ const data = {
     },
     {
       title: "Medical Records",
-      url: "#",
+      url: "/medical-records",
       icon: IconMedicalCross,
     },
   ],

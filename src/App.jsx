@@ -25,6 +25,11 @@ import AppointmentsShow from '@/pages/appointments/Show';
 import AppointmentsCreate from '@/pages/appointments/Create';
 import AppointmentsEdit from '@/pages/appointments/Edit';
 
+// import MedicalRecordsIndex from '@/pages/medical-records/Index';
+// import MedicalRecordsShow from '@/pages/medical-records/Show';
+// import MedicalRecordsCreate from '@/pages/medical-records/Create';
+// import MedicalRecordsEdit from '@/pages/medical-records/Edit';
+
 
 export default function App() {
 
@@ -83,7 +88,18 @@ export default function App() {
                     path="/appointments/:id/edit"
                     element={<AppointmentsEdit />}
                   />
-                  <Route path="/appointments/create" element={<AppointmentsCreate />} />
+                  {/* <Route path="/appointments/create" element={<AppointmentsCreate />} />
+
+                  <Route path="/medical-records" element={<MedicalRecordsIndex />} />
+                  <Route
+                    path="/medical-records/:id"
+                    element={<MedicalRecordsShow />}
+                  />
+                  <Route
+                    path="/medical-records/:id/edit"
+                    element={<MedicalRecordsEdit />}
+                  />
+                  <Route path="/medical-records/create" element={<MedicalRecordsCreate />} /> */}
                 </Routes>
               </div>
             </div>
