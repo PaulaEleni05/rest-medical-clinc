@@ -64,7 +64,8 @@ export default function Create() {
             method: "POST",
             url: `/appointments`,
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
             },
             data: {
                 appointment_date: form.appointment_date,

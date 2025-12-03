@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react";
 import DeleteBtn from "@/components/DeleteBtn";
+import { useAuth } from "@/hooks/useAuth";
 
 import {
   Table,
@@ -20,6 +21,7 @@ export default function Index() {
   const [appointments, setAppointments] = useState([]);
 
   const navigate = useNavigate();
+  const { token } = useAuth();
   
 
   useEffect(() => {
@@ -27,6 +29,9 @@ export default function Index() {
       const options = {
         method: "GET",
         url: "/appointments",
+         headers: {
+          Authorization: `Bearer ${token}`
+        }
       };
 
       try {
@@ -39,7 +44,7 @@ export default function Index() {
     };
 
     fetchAppointments();
-  }, []);
+  },  [token]);
 
   const onDeleteCallback = (id) => {
     toast.success("Appointment deleted successfully");
