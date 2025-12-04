@@ -19,7 +19,7 @@ import { toast } from "sonner";
 
 export default function Index() {
   const [appointments, setAppointments] = useState([]);
-
+  
   const navigate = useNavigate();
   const { token } = useAuth();
   
