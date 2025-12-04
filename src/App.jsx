@@ -25,10 +25,15 @@ import AppointmentsShow from '@/pages/appointments/Show';
 import AppointmentsCreate from '@/pages/appointments/Create';
 import AppointmentsEdit from '@/pages/appointments/Edit';
 
-// import MedicalRecordsIndex from '@/pages/medical-records/Index';
-// import MedicalRecordsShow from '@/pages/medical-records/Show';
-// import MedicalRecordsCreate from '@/pages/medical-records/Create';
-// import MedicalRecordsEdit from '@/pages/medical-records/Edit';
+// import DiagnosesIndex from '@/pages/diagnoses/Index';
+// import DiagnosesShow from '@/pages/diagnoses/Show';
+// import DiagnosesCreate from '@/pages/diagnoses/Create';
+// import DiagnosesEdit from '@/pages/diagnoses/Edit';
+
+// import PrescriptionsIndex from '@/pages/prescriptions/Index';
+// import PrescriptionsShow from '@/pages/prescriptions/Show';
+// import PrescriptionsCreate from '@/pages/prescriptions/Create';
+// import PrescriptionsEdit from '@/pages/prescriptions/Edit';
 
 
 export default function App() {
@@ -89,18 +94,28 @@ export default function App() {
                     element={<AppointmentsEdit />}
                   />
                   <Route path="/appointments/create" element={<AppointmentsCreate />} />
-                  {/* <Route path="/appointments/create" element={<AppointmentsCreate />} />
 
-                  <Route path="/medical-records" element={<MedicalRecordsIndex />} />
+                  {/* <Route path="/diagnoses" element={<DiagnosesIndex />} />
                   <Route
-                    path="/medical-records/:id"
-                    element={<MedicalRecordsShow />}
+                    path="/diagnoses/:id"
+                    element={<DiagnosesShow />}
                   />
                   <Route
-                    path="/medical-records/:id/edit"
-                    element={<MedicalRecordsEdit />}
+                    path="/diagnoses/:id/edit"
+                    element={<DiagnosesEdit />}
                   />
-                  <Route path="/medical-records/create" element={<MedicalRecordsCreate />} /> */}
+                  <Route path="/diagnoses/create" element={<DiagnosesCreate />} />
+
+                  <Route path="/prescriptions" element={<PrescriptionsIndex />} />
+                  <Route
+                    path="/prescriptions/:id"
+                    element={<PrescriptionsShow />}
+                  />
+                  <Route
+                    path="/prescriptions/:id/edit"
+                    element={<PrescriptionsEdit />}
+                  />
+                  <Route path="/prescriptions/create" element={<PrescriptionsCreate />} /> */}
                 </Routes>
               </div>
             </div>

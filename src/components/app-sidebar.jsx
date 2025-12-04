@@ -52,8 +52,13 @@ const data = {
       icon: IconCalendar,
     },
     {
-      title: "Medical Records",
-      url: "/medical-records",
+      title: "Diagnoses",
+      url: "/diagnoses",
+      icon: IconMedicalCross,
+    },
+    {
+      title: "Prescriptions",
+      url: "/prescriptions",
       icon: IconMedicalCross,
     },
   ],
