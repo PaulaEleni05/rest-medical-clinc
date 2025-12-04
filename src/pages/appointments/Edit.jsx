@@ -90,7 +90,7 @@ export default function Edit() {
 
     const options = {
       method: "PATCH",
-      url: `/appointments/${id}`,
+      url: `/appointment/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

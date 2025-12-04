@@ -88,6 +88,7 @@ export default function App() {
                     path="/appointments/:id/edit"
                     element={<AppointmentsEdit />}
                   />
+                  <Route path="/appointments/create" element={<AppointmentsCreate />} />
                   {/* <Route path="/appointments/create" element={<AppointmentsCreate />} />
 
                   <Route path="/medical-records" element={<MedicalRecordsIndex />} />
