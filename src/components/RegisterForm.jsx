@@ -1,6 +1,18 @@
-import { useState } from "react";
 import axios from "@/config/api";
 import { useAuth } from "@/hooks/useAuth";
+
+import { useForm, Controller } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
+
+import {
+  Field,
+  FieldLabel,
+  FieldError,
+} from "@/components/ui/field";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,53 +25,64 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 export default function RegisterForm() {
-  const [form, setForm] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-    password_confirmation: ""
-  });
-  const [error, setError] = useState("");
   const { onLogin } = useAuth();
 
-  const handleForm = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const formSchema = z.object({
+    first_name: z
+      .string()
+      .min(2, "First name must be at least 2 characters.")
+      .max(255, "First name must be at most 255 characters."),
+    last_name: z
+      .string()
+      .min(2, "Last name must be at least 2 characters.")
+      .max(255, "Last name must be at most 255 characters."),
+    email: z.string().email("Invalid email address"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters.")
+      .max(255, "Password must be at most 255 characters."),
+    password_confirmation: z.string()
+  }).refine((data) => data.password === data.password_confirmation, {
+    message: "Passwords do not match",
+    path: ["password_confirmation"],
+  });
 
-  const submitForm = async (e) => {
-    e.preventDefault();
-    setError("");
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+      password_confirmation: ""
+    },
+    mode: "onChange"
+  });
 
-    
-    if (form.password !== form.password_confirmation) {
-      setError("Passwords do not match");
-      return;
-    }
-
+  const submitForm = async (data) => {
     try {
       const response = await axios.post("/register", {
-        first_name: form.first_name,
-        last_name: form.last_name,
-        email: form.email,
-        password: form.password
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        password: data.password
       });
 
       console.log("Registration successful:", response.data);
 
-      await onLogin(form.email, form.password);
+      await onLogin(data.email, data.password);
 
     } catch (err) {
       console.error("Registration error:", err);
-      setError(err.response?.data?.message || "Registration failed. Please try again.");
+      toast.error(err.response?.data?.message || "Registration failed. Please try again.");
     }
   };
 
   return (
     <Card className="w-full max-w-md">
+      <Toaster />
       <CardHeader>
         <CardTitle>Create an account</CardTitle>
         <CardDescription>
@@ -67,89 +90,127 @@ export default function RegisterForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={submitForm}>
+        <form id="register-form" onSubmit={form.handleSubmit(submitForm)}>
           <div className="flex flex-col gap-6">
-            {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded">
-                {error}
-              </div>
-            )}
-            
             <div className="grid gap-2">
-              <Label htmlFor="first_name">First Name</Label>
-              <Input
-                id="first_name"
+              <Controller
                 name="first_name"
-                type="text"
-                placeholder="John"
-                required
-                minLength={2}
-                maxLength={255}
-                onChange={handleForm}
-                value={form.first_name}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="first_name">First Name</FieldLabel>
+                    <Input
+                      id="first_name"
+                      {...field}
+                      placeholder="John"
+                      autoComplete="given-name"
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="last_name">Last Name</Label>
-              <Input
-                id="last_name"
+              <Controller
                 name="last_name"
-                type="text"
-                placeholder="Doe"
-                required
-                minLength={2}
-                maxLength={255}
-                onChange={handleForm}
-                value={form.last_name}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="last_name">Last Name</FieldLabel>
+                    <Input
+                      id="last_name"
+                      {...field}
+                      placeholder="Doe"
+                      autoComplete="family-name"
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
+              <Controller
                 name="email"
-                type="email"
-                placeholder="test@example.com"
-                required
-                onChange={handleForm}
-                value={form.email}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="email">Email</FieldLabel>
+                    <Input
+                      id="email"
+                      {...field}
+                      placeholder="test@example.com"
+                      autoComplete="email"
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+              <Controller
                 name="password"
-                type="password"
-                required
-                minLength={8}
-                maxLength={255}
-                onChange={handleForm}
-                value={form.password}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                    <Input
+                      id="password"
+                      type="password"
+                      {...field}
+                      autoComplete="new-password"
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="password_confirmation">Confirm Password</Label>
-              <Input
-                id="password_confirmation"
+              <Controller
                 name="password_confirmation"
-                type="password"
-                required
-                minLength={8}
-                maxLength={255}
-                onChange={handleForm}
-                value={form.password_confirmation}
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="password_confirmation">Confirm Password</FieldLabel>
+                    <Input
+                      id="password_confirmation"
+                      type="password"
+                      {...field}
+                      autoComplete="new-password"
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
               />
             </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button variant='outline' onClick={submitForm} type="submit" className="w-full">
+        <Button
+          variant="outline"
+          form="register-form"
+          type="submit"
+          className="w-full"
+        >
           Register
         </Button>
       </CardFooter>
