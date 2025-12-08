@@ -17,6 +17,16 @@ import {
 } from "@/components/ui/table";
 import { toast } from "sonner";
 
+function formatDate(timestamp) {
+  if (!timestamp) return "";
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString("en-IE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export default function Index() {
   const [diagnoses, setDiagnoses] = useState([]);
   const { token } = useAuth();
@@ -73,7 +83,7 @@ export default function Index() {
           {diagnoses.map((diagnosis) => (
             <TableRow key={diagnosis.id}>
               <TableCell>{diagnosis.condition}</TableCell>
-              <TableCell>{diagnosis.diagnosis_date}</TableCell>
+              <TableCell>{formatDate(diagnosis.diagnosis_date)}</TableCell>
               <TableCell>
                 {diagnosis.patient?.first_name} {diagnosis.patient?.last_name}
               </TableCell>

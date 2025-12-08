@@ -12,6 +12,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+
+function formatDate(timestamp) {
+  if (!timestamp) return "";
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString("en-IE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export default function Show() {
   const [prescription, setPrescription] = useState({});
   const { id } = useParams();
@@ -51,8 +62,8 @@ export default function Show() {
         <div className="space-y-2">
           <p><strong>Medication:</strong> {prescription.medication}</p>
           <p><strong>Dosage:</strong> {prescription.dosage}</p>
-          <p><strong>Start Date:</strong> {prescription.start_date}</p>
-          <p><strong>End Date:</strong> {prescription.end_date}</p>
+          <p><strong>Start Date:</strong> {formatDate(prescription.start_date)}</p>
+          <p><strong>End Date:</strong> {formatDate(prescription.end_date)}</p>
           <p><strong>Patient:</strong> {prescription.patient?.first_name} {prescription.patient?.last_name}</p>
           <p><strong>Doctor:</strong> {prescription.doctor?.first_name} {prescription.doctor?.last_name}</p>
           <p><strong>Diagnosis:</strong> {prescription.diagnosis?.condition}</p>

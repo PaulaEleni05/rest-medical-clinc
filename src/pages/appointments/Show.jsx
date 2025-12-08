@@ -12,6 +12,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+function formatDate(timestamp) {
+  if (!timestamp) return "";
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString("en-IE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export default function Show() {
   const [appointment, setAppointment] = useState([]);
   const { id } = useParams();
@@ -49,7 +59,7 @@ export default function Show() {
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          <p><strong>Date:</strong> {appointment.appointment_date}</p>
+          <p><strong>Date:</strong> {formatDate(appointment.appointment_date)}</p>
           <p><strong>Doctor ID:</strong> {appointment.doctor_id}</p>
           <p><strong>Patient ID:</strong> {appointment.patient_id}</p>
         </div>

@@ -12,6 +12,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+
+function formatDate(timestamp) {
+  if (!timestamp) return "";
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString("en-IE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export default function Show() {
   const [patient, setPatient] = useState([]);
   const { id } = useParams();
@@ -52,7 +63,7 @@ export default function Show() {
           <p><strong>Email:</strong> {patient.email}</p>
           <p><strong>Phone:</strong> {patient.phone}</p>
           <p><strong>Address:</strong> {patient.address}</p>
-          <p><strong>Date of Birth:</strong> {patient.date_of_birth}</p>
+          <p><strong>Date of Birth:</strong> {formatDate(patient.date_of_birth)}</p>
         </div>
       </CardContent>
       <CardFooter className="flex-col gap-2">

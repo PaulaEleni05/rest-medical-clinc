@@ -16,6 +16,17 @@ import {
 } from "@/components/ui/table";
 import { toast } from "sonner";
 
+function formatDate(timestamp) {
+  if (!timestamp) return "";
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString("en-IE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
+
 export default function Index() {
   const [patients, setPatients] = useState([]);
 
@@ -75,7 +86,7 @@ export default function Index() {
             <TableCell>{patient.first_name} {patient.last_name}</TableCell>
             <TableCell>{patient.email}</TableCell>
             <TableCell>{patient.phone}</TableCell>
-            <TableCell>{patient.date_of_birth}</TableCell>
+            <TableCell>{formatDate(patient.date_of_birth)}</TableCell>
             <TableCell>
               <div className="flex gap-2">
               <Button 

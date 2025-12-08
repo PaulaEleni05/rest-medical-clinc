@@ -17,6 +17,16 @@ import {
 } from "@/components/ui/table";
 import { toast } from "sonner";
 
+function formatDate(timestamp) {
+  if (!timestamp) return "";
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString("en-IE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export default function Index() {
   const [prescriptions, setPrescriptions] = useState([]);
   const { token } = useAuth();
@@ -83,8 +93,8 @@ export default function Index() {
               <TableCell>
                 {prescription.doctor?.first_name} {prescription.doctor?.last_name}
               </TableCell>
-              <TableCell>{prescription.start_date}</TableCell>
-              <TableCell>{prescription.end_date}</TableCell>
+              <TableCell>{formatDate(prescription.start_date)}</TableCell>
+              <TableCell>{formatDate(prescription.end_date)}</TableCell>
               <TableCell>
                 <div className="flex gap-2">
                   <Button 
