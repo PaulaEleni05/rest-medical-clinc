@@ -8,25 +8,77 @@ export default function DeleteBtn({ resource, id, onDeleteCallback }) {
 
     let token = localStorage.getItem('token');
 
-    const onDelete = async () => {
-        const options = {
-            method: "DELETE",
-            url: `/${resource}/${id}`,
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-      };
+    const deleteCascade = async (doctorId) => {
+        try {
+            // Fetch all appointments for this doctor
+            const appointmentsResponse = await axios.get('/appointments', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            
+            const doctorAppointments = appointmentsResponse.data.filter(
+                app => app.doctor_id === doctorId
+            );
 
-      try {
-        let response = await axios.request(options);
-        console.log(response.data);
-        if (onDeleteCallback) {
-            onDeleteCallback(id);
+            // Fetch all prescriptions for this doctor
+            const prescriptionsResponse = await axios.get('/prescriptions', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            
+            const doctorPrescriptions = prescriptionsResponse.data.filter(
+                pres => pres.doctor_id === doctorId
+            );
+
+            // Delete all related appointments
+            for (const appointment of doctorAppointments) {
+                await axios.delete(`/appointments/${appointment.id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            }
+
+            // Delete all related prescriptions
+            for (const prescription of doctorPrescriptions) {
+                await axios.delete(`/prescriptions/${prescription.id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            }
+
+            console.log(`Deleted ${doctorAppointments.length} appointments and ${doctorPrescriptions.length} prescriptions`);
+            
+            return true;
+        } catch (err) {
+            console.error('Error during cascade delete:', err);
+            return false;
         }
-        
-      } catch (err) {
-        console.log(err);
-      }
+    };
+
+    const onDelete = async () => {
+        try {
+            if (resource === 'doctors') {
+                const cascadeSuccess = await deleteCascade(id);
+                if (!cascadeSuccess) {
+                    console.error('Failed to delete related records');
+                    return;
+                }
+            }
+
+            const options = {
+                method: "DELETE",
+                url: `/${resource}/${id}`,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            };
+
+            let response = await axios.request(options);
+            console.log(response.data);
+            
+            if (onDeleteCallback) {
+                onDeleteCallback(id);
+            }
+            
+        } catch (err) {
+            console.log(err);
+        }
     };
 
   return (

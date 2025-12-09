@@ -52,7 +52,7 @@ export default function Index() {
   }, []);
 
   const onDeleteCallback = (id) => {
-    toast.success("Doctor deleted successfully");
+    toast.success("Doctor and all related appointments and prescriptions deleted successfully");
     setDoctors(doctors.filter(doctor => doctor.id !== id));
   
   };
