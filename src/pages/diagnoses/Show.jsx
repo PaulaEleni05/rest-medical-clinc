@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "@/config/api";
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { useAuth } from "@/hooks/useAuth";
 import {
   Card,
@@ -61,7 +61,7 @@ export default function Show() {
         <div className="space-y-2">
           <p><strong>Condition:</strong> {diagnosis.condition}</p>
           <p><strong>Diagnosis Date:</strong> {formatDate(diagnosis.diagnosis_date)}</p>
-          <p><strong>Patient:</strong> {diagnosis.patient?.first_name} {diagnosis.patient?.last_name}</p>
+          <p><strong>Patient ID:</strong> {diagnosis.patient_id}</p>
         </div>
       </CardContent>
       <CardFooter className="flex-col gap-2">

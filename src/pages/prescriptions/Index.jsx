@@ -88,10 +88,18 @@ export default function Index() {
               <TableCell>{prescription.medication}</TableCell>
               <TableCell>{prescription.dosage}</TableCell>
               <TableCell>
-                {prescription.patient?.first_name} {prescription.patient?.last_name}
+              <Link 
+                  to={`/patients/${prescription.patient_id}`}
+                  className="text-blue-500 underline">
+                  View Patient #{prescription.patient_id}
+              </Link>
               </TableCell>
               <TableCell>
-                {prescription.doctor?.first_name} {prescription.doctor?.last_name}
+              <Link 
+                  to={`/doctors/${prescription.doctor_id}`}
+                  className="text-blue-500 underline">
+                  View Doctor #{prescription.doctor_id}
+              </Link>
               </TableCell>
               <TableCell>{formatDate(prescription.start_date)}</TableCell>
               <TableCell>{formatDate(prescription.end_date)}</TableCell>

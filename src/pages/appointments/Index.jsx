@@ -89,8 +89,20 @@ export default function Index() {
         {appointments.map((appointment) => (
           <TableRow key={appointment.id}>
             <TableCell>{formatDate(appointment.appointment_date)}</TableCell>
-            <TableCell>{appointment.doctor_id}</TableCell>
-            <TableCell>{appointment.patient_id}</TableCell>
+            <TableCell>
+            <Link 
+              to={`/doctors/${appointment.doctor_id}`}
+              className="text-blue-500 underline">
+              View Doctor #{appointment.doctor_id}
+            </Link>
+            </TableCell>
+            <TableCell>
+            <Link 
+              to={`/patients/${appointment.patient_id}`}
+              className="text-blue-500 underline">
+              View Patient #{appointment.patient_id}
+            </Link>
+            </TableCell>
             <TableCell>
               <div className="flex gap-2">
               <Button 

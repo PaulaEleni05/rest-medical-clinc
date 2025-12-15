@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "@/config/api";
-import { useParams } from 'react-router';
+import { Link, useParams } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import {
   Card,
@@ -64,9 +64,16 @@ export default function Show() {
           <p><strong>Dosage:</strong> {prescription.dosage}</p>
           <p><strong>Start Date:</strong> {formatDate(prescription.start_date)}</p>
           <p><strong>End Date:</strong> {formatDate(prescription.end_date)}</p>
-          <p><strong>Patient:</strong> {prescription.patient?.first_name} {prescription.patient?.last_name}</p>
-          <p><strong>Doctor:</strong> {prescription.doctor?.first_name} {prescription.doctor?.last_name}</p>
-          <p><strong>Diagnosis:</strong> {prescription.diagnosis?.condition}</p>
+          <p><strong>Patient ID:</strong> {prescription.patient_id}</p>
+          <p><strong>Doctor ID:</strong> {prescription.doctor_id}</p>
+          <p>
+            <strong>Diagnosis:</strong>{" "}
+            <Link
+              to={`/diagnoses/${prescription.diagnosis_id}`}
+              className="text-blue-500 underline">
+              View Diagnosis #{prescription.diagnosis_id}
+            </Link>
+          </p>
         </div>
       </CardContent>
       <CardFooter className="flex-col gap-2">

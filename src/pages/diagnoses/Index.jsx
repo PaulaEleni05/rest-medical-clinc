@@ -53,7 +53,7 @@ export default function Index() {
     };
 
     fetchDiagnoses();
-  }, []);
+  }, [token]);
 
   const onDeleteCallback = (id) => {
     toast.success("Diagnosis deleted successfully");
@@ -65,8 +65,9 @@ export default function Index() {
       <Button
         asChild
         variant='outline'
+        size='sm'
         className='mb-4 mr-auto block'
-      ><Link size='sm' to={`/diagnoses/create`}>Create New Diagnosis</Link>
+      ><Link to={`/diagnoses/create`}>Create New Diagnosis</Link>
       </Button>
 
       <Table>
@@ -85,7 +86,11 @@ export default function Index() {
               <TableCell>{diagnosis.condition}</TableCell>
               <TableCell>{formatDate(diagnosis.diagnosis_date)}</TableCell>
               <TableCell>
-                {diagnosis.patient?.first_name} {diagnosis.patient?.last_name}
+              <Link 
+                  to={`/patients/${diagnosis.patient_id}`}
+                  className="text-blue-500 underline">
+                  View Patient #{diagnosis.patient_id}
+              </Link>
               </TableCell>
               <TableCell>
                 <div className="flex gap-2">
