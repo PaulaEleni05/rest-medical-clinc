@@ -4,7 +4,7 @@ A modern, full-stack medical clinic management system built with React and Vite.
 
 ## Live Site Hosted on Netlify
 
-Click here -> 
+Click here -> https://rest-medical-clinic.netlify.app/
 
 ## What's in This Repository
 
